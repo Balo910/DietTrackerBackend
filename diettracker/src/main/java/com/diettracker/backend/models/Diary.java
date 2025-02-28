@@ -1,7 +1,6 @@
 package com.diettracker.backend.models;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "diary")
@@ -11,14 +10,18 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     @Enumerated(EnumType.STRING)
-    private DiaryType name;
+    @Column(name = "type")
+    private DiaryType type;
 
-    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<DiaryFood> diaryFoods;
+    public Diary() {
+    }
 
-    public Diary(DiaryType name) {
+    public Diary(String name, DiaryType type) {
         this.name = name;
+        this.type = type;
     }
 
     public Long getId() {
@@ -29,19 +32,19 @@ public class Diary {
         this.id = id;
     }
 
-    public DiaryType getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(DiaryType name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public Set<DiaryFood> getDiaryFoods() {
-        return diaryFoods;
+    public DiaryType getType() {
+        return type;
     }
 
-    public void setDiaryFoods(Set<DiaryFood> diaryFoods) {
-        this.diaryFoods = diaryFoods;
+    public void setType(DiaryType type) {
+        this.type = type;
     }
 }
