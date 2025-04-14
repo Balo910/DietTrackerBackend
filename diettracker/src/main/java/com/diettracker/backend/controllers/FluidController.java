@@ -1,7 +1,7 @@
 package com.diettracker.backend.controllers;
 
 import com.diettracker.backend.models.Fluid;
-import com.diettracker.backend.repositories.FluidRepository;
+import com.diettracker.backend.services.FluidService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,43 +12,37 @@ import java.util.Optional;
 @RequestMapping("/api/fluid")
 public class FluidController {
 
-    private final FluidRepository fluidRepository;
+    private final FluidService fluidService;
 
-    public FluidController(FluidRepository fluidRepository) {
-        this.fluidRepository = fluidRepository;
+    public FluidController(FluidService fluidService) {
+        this.fluidService = fluidService;
     }
 
     @GetMapping
     public List<Fluid> getAllFluids() {
-        return fluidRepository.findAll();
+        return fluidService.getAllFluids();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Fluid> getFluidById(@PathVariable Long id) {
-        Optional<Fluid> fluid = fluidRepository.findById(id);
+        Optional<Fluid> fluid = fluidService.getFluidById(id);
         return fluid.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Fluid addFluid(@RequestBody Fluid fluid) {
-        return fluidRepository.save(fluid);
+    public Fluid createFluid(@RequestBody Fluid fluid) {
+        return fluidService.saveFluid(fluid);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Fluid> updateFluid(@PathVariable Long id, @RequestBody Fluid updatedFluid) {
-        if (!fluidRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        updatedFluid.setId(id);
-        return ResponseEntity.ok(fluidRepository.save(updatedFluid));
+        Optional<Fluid> fluid = fluidService.updateFluid(id, updatedFluid);
+        return fluid.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFluid(@PathVariable Long id) {
-        if (!fluidRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        fluidRepository.deleteById(id);
+        fluidService.deleteFluid(id);
         return ResponseEntity.noContent().build();
     }
 }

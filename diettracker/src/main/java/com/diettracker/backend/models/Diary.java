@@ -1,6 +1,8 @@
 package com.diettracker.backend.models;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "diary")
@@ -10,18 +12,19 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private LocalDate date;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private DiaryType type;
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaryFood> foods;
+
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaryFluid> fluids;
 
     public Diary() {
     }
 
-    public Diary(String name, DiaryType type) {
-        this.name = name;
-        this.type = type;
+    public Diary(LocalDate date) {
+        this.date = date;
     }
 
     public Long getId() {
@@ -32,19 +35,27 @@ public class Diary {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public DiaryType getType() {
-        return type;
+    public List<DiaryFood> getFoods() {
+        return foods;
     }
 
-    public void setType(DiaryType type) {
-        this.type = type;
+    public void setFoods(List<DiaryFood> foods) {
+        this.foods = foods;
+    }
+
+    public List<DiaryFluid> getFluids() {
+        return fluids;
+    }
+
+    public void setFluids(List<DiaryFluid> fluids) {
+        this.fluids = fluids;
     }
 }

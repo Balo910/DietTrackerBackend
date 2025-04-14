@@ -1,12 +1,12 @@
 package com.diettracker.backend.controllers;
 
-import com.diettracker.backend.models.Diary;
-import com.diettracker.backend.models.DiaryType;
+import com.diettracker.backend.models.*;
 import com.diettracker.backend.services.DiaryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/diary")
@@ -25,9 +25,8 @@ public class DiaryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Diary> getDiaryById(@PathVariable Long id) {
-        return diaryService.getDiaryById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<Diary> diary = diaryService.getDiaryById(id);
+        return diary.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -36,25 +35,24 @@ public class DiaryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Diary> updateDiary(@PathVariable Long id, @RequestBody Diary diary) {
-        return diaryService.updateDiary(id, diary);
+    public ResponseEntity<Diary> updateDiary(@PathVariable Long id, @RequestBody Diary updatedDiary) {
+        Optional<Diary> diary = diaryService.updateDiary(id, updatedDiary);
+        return diary.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDiary(@PathVariable Long id) {
-        return diaryService.deleteDiary(id);
+        diaryService.deleteDiary(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/search")
-    public List<Diary> searchDiaries(@RequestParam(required = false) String name) {
-        if (name != null && !name.isEmpty()) {
-            return diaryService.searchDiariesByName(name);
-        }
-        return diaryService.getAllDiaries();
+    @PostMapping("/{diaryId}/food")
+    public DiaryFood addFoodToDiary(@PathVariable Long diaryId, @RequestParam Long foodId, @RequestParam double weight) {
+        return diaryService.addFoodToDiary(diaryId, foodId, weight);
     }
 
-    @GetMapping("/type/{type}")
-    public List<Diary> getDiariesByType(@PathVariable DiaryType type) {
-        return diaryService.findByType(type);
+    @PostMapping("/{diaryId}/fluid")
+    public DiaryFluid addFluidToDiary(@PathVariable Long diaryId, @RequestParam Long fluidId, @RequestParam double volume) {
+        return diaryService.addFluidToDiary(diaryId, fluidId, volume);
     }
 }

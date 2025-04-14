@@ -1,6 +1,7 @@
 package com.diettracker.backend.models;
 
 import jakarta.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "food")
@@ -17,16 +18,20 @@ public class Food {
     private double fats;
     private double carbs;
 
+    @ElementCollection
+    private Set<String> tags;
+
     public Food() {
     }
 
-    public Food(String name, double weight, double calories, double proteins, double fats, double carbs) {
+    public Food(String name, double weight, double calories, double proteins, double fats, double carbs, Set<String> tags) {
         this.name = name;
         this.weight = weight;
         this.calories = calories;
         this.proteins = proteins;
         this.fats = fats;
         this.carbs = carbs;
+        this.tags = tags;
     }
 
     public Long getId() {
@@ -84,4 +89,13 @@ public class Food {
     public void setCarbs(double carbs) {
         this.carbs = carbs;
     }
+
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
+    }
+
 }
