@@ -1,10 +1,20 @@
+// DiaryController.java
 package com.diettracker.backend.controllers;
 
-import com.diettracker.backend.models.*;
+import com.diettracker.backend.dto.DiaryFoodDTO;
+import com.diettracker.backend.dto.DiaryWithFoodsDTO;
+import com.diettracker.backend.models.Diary;
+import com.diettracker.backend.models.DiaryFood;
+import com.diettracker.backend.models.Food;
+import com.diettracker.backend.repositories.DiaryFoodRepository;
+import com.diettracker.backend.repositories.DiaryRepository;
+import com.diettracker.backend.requests.AddDiaryFoodRequest;
+import com.diettracker.backend.requests.CreateDiaryRequest;
 import com.diettracker.backend.services.DiaryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,47 +22,74 @@ import java.util.Optional;
 @RequestMapping("/api/diary")
 public class DiaryController {
 
+    private final DiaryRepository diaryRepository;
+    private final DiaryFoodRepository diaryFoodRepository;
     private final DiaryService diaryService;
 
-    public DiaryController(DiaryService diaryService) {
+    public DiaryController(DiaryRepository diaryRepository, DiaryFoodRepository diaryFoodRepository, DiaryService diaryService) {
+        this.diaryRepository = diaryRepository;
+        this.diaryFoodRepository = diaryFoodRepository;
         this.diaryService = diaryService;
     }
 
     @GetMapping
     public List<Diary> getAllDiaries() {
-        return diaryService.getAllDiaries();
+        return diaryRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Diary> getDiaryById(@PathVariable Long id) {
-        Optional<Diary> diary = diaryService.getDiaryById(id);
+        Optional<Diary> diary = diaryRepository.findById(id);
         return diary.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Diary> createDiary(@RequestBody CreateDiaryRequest request) {
+        Diary diary = new Diary();
+        diary.setDate((LocalDate.now()));
+
+        Diary savedDiary = diaryRepository.save(diary);
+        return ResponseEntity.ok(savedDiary);
+    }
+
+    @GetMapping("/with-foods")
+    public List<DiaryWithFoodsDTO> getAllDiariesWithFoods() {
+        List<Diary> diaries = diaryRepository.findAll();
+
+        return diaries.stream().map(diary -> {
+            List<DiaryFoodDTO> foodDTOs = diary.getDiaryFoods().stream()
+                    .map(this::convertToDTO)
+                    .toList();
+            return new DiaryWithFoodsDTO(diary.getId(), diary.getDate(), foodDTOs);
+        }).toList();
     }
 
     @PostMapping
-    public Diary createDiary(@RequestBody Diary diary) {
-        return diaryService.saveDiary(diary);
+    public ResponseEntity<DiaryFoodDTO> addFoodToDiary(@RequestBody AddDiaryFoodRequest request) {
+        DiaryFood diaryFood = diaryService.addFoodToDiary(
+                request.getDiaryId(),
+                request.getFoodId(),
+                request.getWeight()
+        );
+        return ResponseEntity.ok(convertToDTO(diaryFood));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Diary> updateDiary(@PathVariable Long id, @RequestBody Diary updatedDiary) {
-        Optional<Diary> diary = diaryService.updateDiary(id, updatedDiary);
-        return diary.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+    private DiaryFoodDTO convertToDTO(DiaryFood diaryFood) {
+        Food food = diaryFood.getFood();
+        double weightRatio = diaryFood.getWeight() / food.getWeight();
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDiary(@PathVariable Long id) {
-        diaryService.deleteDiary(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/{diaryId}/food")
-    public DiaryFood addFoodToDiary(@PathVariable Long diaryId, @RequestParam Long foodId, @RequestParam double weight) {
-        return diaryService.addFoodToDiary(diaryId, foodId, weight);
-    }
-
-    @PostMapping("/{diaryId}/fluid")
-    public DiaryFluid addFluidToDiary(@PathVariable Long diaryId, @RequestParam Long fluidId, @RequestParam double volume) {
-        return diaryService.addFluidToDiary(diaryId, fluidId, volume);
+        return new DiaryFoodDTO(
+                diaryFood.getId(),
+                diaryFood.getDiary().getId(),
+                food.getId(),
+                food.getName(),
+                diaryFood.getWeight(),
+                Math.round(food.getCalories() * weightRatio * 10.0) / 10.0,
+                Math.round(food.getProteins() * weightRatio * 10.0) / 10.0,
+                Math.round(food.getFats() * weightRatio * 10.0) / 10.0,
+                Math.round(food.getCarbs() * weightRatio * 10.0) / 10.0,
+                diaryFood.getCreatedAt(),
+                diaryFood.getUpdatedAt()
+        );
     }
 }

@@ -30,6 +30,8 @@ public class DiaryFood {
         this.diary = diary;
         this.food = food;
         this.weight = weight;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -79,5 +81,4 @@ public class DiaryFood {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

@@ -1,7 +1,6 @@
 package com.diettracker.backend.models;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "fluid")
@@ -14,8 +13,6 @@ public class Fluid {
     private String name;
     private double volume;
     private double calories;
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public Fluid() {
     }
@@ -57,22 +54,4 @@ public class Fluid {
     public void setCalories(double calories) {
         this.calories = calories;
     }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    // Getters and Setters
 }

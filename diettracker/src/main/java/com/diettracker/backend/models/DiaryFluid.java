@@ -30,6 +30,8 @@ public class DiaryFluid {
         this.diary = diary;
         this.fluid = fluid;
         this.volume = volume;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -79,6 +81,4 @@ public class DiaryFluid {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    // Getters and Setters
 }

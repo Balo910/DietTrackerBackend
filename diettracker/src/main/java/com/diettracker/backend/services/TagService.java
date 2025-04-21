@@ -9,7 +9,8 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class TagService {
+public class
+TagService {
 
     private final FoodRepository foodRepository;
 
