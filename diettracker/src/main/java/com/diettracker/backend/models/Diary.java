@@ -8,8 +8,6 @@ import java.util.List;
 @Entity
 @Table(name = "diary")
 public class Diary {
-    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<DiaryFood> diaryFoods;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +17,12 @@ public class Diary {
     private DiaryType name;
 
     private LocalDate date;
+
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DiaryFood> diaryFoods;
+
+    @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DiaryFluid> diaryFluids;
 
     public Diary() {
     }
@@ -51,8 +55,16 @@ public class Diary {
         return diaryFoods;
     }
 
+    public List<DiaryFluid> getDiaryFluids() {
+        return diaryFluids;
+    }
+
     public void setDiaryFoods(List<DiaryFood> diaryFoods) {
         this.diaryFoods = diaryFoods;
+    }
+
+    public void setDiaryFluids(List<DiaryFluid> diaryFluids) {
+        this.diaryFluids = diaryFluids;
     }
 
     public LocalDate getDate() {

@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface FluidRepository extends JpaRepository<Fluid, Long> {
     List<Fluid> findByNameContainingIgnoreCase(String name);
+    List<Fluid> findByTagsContaining(String tag);
 }

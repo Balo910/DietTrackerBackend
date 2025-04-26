@@ -1,6 +1,7 @@
 package com.diettracker.backend.services;
 
 import com.diettracker.backend.models.Fluid;
+import com.diettracker.backend.models.Food;
 import com.diettracker.backend.repositories.FluidRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +42,13 @@ public class FluidService {
 
     public void deleteFluid(Long id) {
         fluidRepository.deleteById(id);
+    }
+
+    public List<Fluid> searchFluidByName(String name) {
+        return fluidRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Fluid> searchFluidByTag(String tag) {
+        return fluidRepository.findByTagsContaining(tag);
     }
 }
