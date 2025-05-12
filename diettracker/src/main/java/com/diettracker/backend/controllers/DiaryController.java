@@ -3,6 +3,8 @@ package com.diettracker.backend.controllers;
 import com.diettracker.backend.dto.DiaryFluidDTO;
 import com.diettracker.backend.dto.DiaryFoodDTO;
 import com.diettracker.backend.dto.DiaryWithFoodsAndFluidsDTO;
+import com.diettracker.backend.requests.UpdateDiaryFoodRequest;
+import com.diettracker.backend.requests.UpdateDiaryFluidRequest;
 import com.diettracker.backend.models.*;
 import com.diettracker.backend.repositories.DiaryFluidRepository;
 import com.diettracker.backend.repositories.DiaryFoodRepository;
@@ -13,12 +15,13 @@ import com.diettracker.backend.requests.CreateDiaryRequest;
 import com.diettracker.backend.services.DiaryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/diary")
+@CrossOrigin(origins = "http://localhost:4200")
 public class DiaryController {
 
     private final DiaryRepository diaryRepository;
@@ -147,4 +150,25 @@ public class DiaryController {
                 diaryFood.getUpdatedAt()
         );
     }
+
+    @PutMapping("/{diaryId}/food/{foodId}")
+    public ResponseEntity<DiaryFoodDTO> updateDiaryFood(
+            @PathVariable Long diaryId,
+            @PathVariable Long foodId,
+            @RequestBody UpdateDiaryFoodRequest request) {
+        DiaryFood updatedDiaryFood = diaryService.updateDiaryFood(diaryId, foodId, request);
+        return ResponseEntity.ok(convertToFoodDTO(updatedDiaryFood));
+    }
+
+    @PutMapping("/{diaryId}/fluid/{fluidId}")
+    public ResponseEntity<DiaryFluidDTO> updateDiaryFluid(
+            @PathVariable Long diaryId,
+            @PathVariable Long fluidId,
+            @RequestBody UpdateDiaryFluidRequest request) {
+        DiaryFluid updatedDiaryFluid = diaryService.updateDiaryFluid(diaryId, fluidId, request);
+        return ResponseEntity.ok(convertToFluidDTO(updatedDiaryFluid));
+    }
+
+
+
 }

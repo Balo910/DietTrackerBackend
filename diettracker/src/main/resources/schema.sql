@@ -1,0 +1,17 @@
+CREATE TABLE food (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    weight DOUBLE NOT NULL,
+    calories DOUBLE NOT NULL,
+    proteins DOUBLE NOT NULL,
+    fats DOUBLE NOT NULL,
+    carbs DOUBLE NOT NULL
+
+);
+
+CREATE TABLE fluid (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    volume DOUBLE NOT NULL,
+    calories DOUBLE NOT NULL
+);

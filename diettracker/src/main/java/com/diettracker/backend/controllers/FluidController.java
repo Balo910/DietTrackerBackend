@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/fluid")
+@CrossOrigin(origins = "http://localhost:4200")
 public class FluidController {
 
     private final FluidRepository fluidRepository;

@@ -17,18 +17,13 @@ public class Fluid {
     private double volume;
     private double calories;
 
-    @ElementCollection
-    private Set<String> tags;
-
     public Fluid() {
     }
 
-    public Fluid(Long id, String name, double volume, double calories, Set<String> tags) {
-        this.id = id;
+    public Fluid(String name, double volume, double calories) {
         this.name = name;
         this.volume = volume;
         this.calories = calories;
-        this.tags = tags;
     }
 
     public Long getId() {
@@ -61,13 +56,5 @@ public class Fluid {
 
     public void setCalories(double calories) {
         this.calories = calories;
-    }
-
-    public Set<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
     }
 }

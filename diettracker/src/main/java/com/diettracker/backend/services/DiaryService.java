@@ -2,10 +2,14 @@ package com.diettracker.backend.services;
 
 import com.diettracker.backend.models.*;
 import com.diettracker.backend.repositories.*;
+import com.diettracker.backend.requests.UpdateDiaryFluidRequest;
+import com.diettracker.backend.requests.UpdateDiaryFoodRequest;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -59,6 +63,39 @@ public class DiaryService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "DiaryFluid entry not found for diary id: " + diaryId + " and fluid id: " + fluidId));
         diaryFluidRepository.delete(diaryFluid);
+    }
+
+    @Transactional
+    public DiaryFood updateDiaryFood(Long diaryId, Long foodId, UpdateDiaryFoodRequest request) {
+        DiaryFood diaryFood = diaryFoodRepository.findByDiaryIdAndFoodId(diaryId, foodId)
+                .orElseThrow(() -> new EntityNotFoundException("DiaryFood not found"));
+
+        Food food = diaryFood.getFood();
+        food.setName(request.getFoodName());
+        food.setCalories(request.getCalories());
+        food.setProteins(request.getProteins());
+        food.setFats(request.getFats());
+        food.setCarbs(request.getCarbs());
+
+        diaryFood.setWeight(request.getWeight());
+        diaryFood.setUpdatedAt(LocalDateTime.now());
+
+        return diaryFoodRepository.save(diaryFood);
+    }
+
+    @Transactional
+    public DiaryFluid updateDiaryFluid(Long diaryId, Long fluidId, UpdateDiaryFluidRequest request) {
+        DiaryFluid diaryFluid = diaryFluidRepository.findByDiaryIdAndFluidId(diaryId, fluidId)
+                .orElseThrow(() -> new EntityNotFoundException("DiaryFluid not found"));
+
+        Fluid fluid = diaryFluid.getFluid();
+        fluid.setName(request.getFluidName());
+        fluid.setCalories(request.getCalories());
+
+        diaryFluid.setVolume(request.getVolume());
+        diaryFluid.setUpdatedAt(LocalDateTime.now());
+
+        return diaryFluidRepository.save(diaryFluid);
     }
 
 

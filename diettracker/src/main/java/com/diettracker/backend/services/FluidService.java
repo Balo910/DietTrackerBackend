@@ -48,7 +48,4 @@ public class FluidService {
         return fluidRepository.findByNameContainingIgnoreCase(name);
     }
 
-    public List<Fluid> searchFluidByTag(String tag) {
-        return fluidRepository.findByTagsContaining(tag);
-    }
 }

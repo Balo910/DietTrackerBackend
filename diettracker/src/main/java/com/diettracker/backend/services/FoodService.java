@@ -38,7 +38,6 @@ public class FoodService {
                     food.setProteins(updatedFood.getProteins());
                     food.setFats(updatedFood.getFats());
                     food.setCarbs(updatedFood.getCarbs());
-                    food.setTags(updatedFood.getTags());
                     return foodRepository.save(food);
                 });
     }
@@ -51,7 +50,4 @@ public class FoodService {
         return foodRepository.findByNameContainingIgnoreCase(name);
     }
 
-    public List<Food> searchFoodByTag(String tag) {
-        return foodRepository.findByTagsContaining(tag);
-    }
 }
