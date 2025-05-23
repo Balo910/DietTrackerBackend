@@ -15,3 +15,9 @@ CREATE TABLE fluid (
     volume DOUBLE NOT NULL,
     calories DOUBLE NOT NULL
 );
+
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);

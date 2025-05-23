@@ -1,7 +1,6 @@
 package com.diettracker.backend.models;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,6 +16,9 @@ public class Diary {
     private DiaryType name;
 
     private LocalDate date;
+
+    @Column(name = "user_email")
+    private String userEmail;
 
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DiaryFood> diaryFoods;
@@ -47,27 +49,35 @@ public class Diary {
         this.name = name;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public List<DiaryFood> getDiaryFoods() {
         return diaryFoods;
     }
 
-    public List<DiaryFluid> getDiaryFluids() {
-        return diaryFluids;
-    }
-
     public void setDiaryFoods(List<DiaryFood> diaryFoods) {
         this.diaryFoods = diaryFoods;
     }
 
-    public void setDiaryFluids(List<DiaryFluid> diaryFluids) {
-        this.diaryFluids = diaryFluids;
+    public List<DiaryFluid> getDiaryFluids() {
+        return diaryFluids;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public void setDiaryFluids(List<DiaryFluid> diaryFluids) {
+        this.diaryFluids = diaryFluids;
     }
 }

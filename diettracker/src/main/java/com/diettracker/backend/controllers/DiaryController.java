@@ -168,7 +168,4 @@ public class DiaryController {
         DiaryFluid updatedDiaryFluid = diaryService.updateDiaryFluid(diaryId, fluidId, request);
         return ResponseEntity.ok(convertToFluidDTO(updatedDiaryFluid));
     }
-
-
-
 }
