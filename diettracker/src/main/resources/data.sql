@@ -492,4 +492,3 @@ INSERT INTO fluid (name, volume, calories) VALUES
 ('Napój malinowy', 250, 130);
 
 
-
