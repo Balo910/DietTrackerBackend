@@ -1,6 +1,7 @@
 package com.diettracker.backend.config;
 
-import com.diettracker.backend.services.MyAppUserService;
+import com.diettracker.backend.jwt.JwtAuthenticationFilter;
+import com.diettracker.backend.myappuser.MyAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
