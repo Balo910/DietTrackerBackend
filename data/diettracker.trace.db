@@ -1,0 +1,4 @@
+2025-05-26 15:46:49.250928+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "FOOD" już istnieje
+Table "FOOD" already exists; SQL statement:
+CREATE TABLE food ( id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(100) NOT NULL, weight DOUBLE NOT NULL, calories DOUBLE NOT NULL, proteins DOUBLE NOT NULL, fats DOUBLE NOT NULL, carbs DOUBLE NOT NULL ) [42101-232]
