@@ -58,7 +58,7 @@ public class SecurityConfig {
                     registry
                             .requestMatchers("/req/**").permitAll()
                             .requestMatchers("/api/**").authenticated()
-                            .anyRequest().denyAll();
+                            .anyRequest().permitAll();
                 })
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

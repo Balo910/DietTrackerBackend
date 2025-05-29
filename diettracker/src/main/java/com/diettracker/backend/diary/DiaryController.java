@@ -3,6 +3,7 @@ import com.diettracker.backend.diaryfluid.*;
 import com.diettracker.backend.diaryfood.*;
 import com.diettracker.backend.fluid.Fluid;
 import com.diettracker.backend.food.Food;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/diary")
 @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Diary", description = "Zarządzanie dziennikiem żywieniowym użytkownika")
+
 public class DiaryController {
 
     private final DiaryRepository diaryRepository;

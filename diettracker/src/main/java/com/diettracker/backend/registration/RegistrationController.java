@@ -1,8 +1,8 @@
 package com.diettracker.backend.registration;
-
 import com.diettracker.backend.myappuser.MyAppUser;
 import com.diettracker.backend.login.LoginRequest;
 import com.diettracker.backend.myappuser.MyAppUserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/req")
 @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Registration", description = "Rejestracja nowego użytkownika")
+
 public class RegistrationController {
 
     @Autowired

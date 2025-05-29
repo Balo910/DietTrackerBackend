@@ -2,13 +2,14 @@ package com.diettracker.backend.fluid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/fluid")
 @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Fluid", description = "Zarządzanie napojami")
 public class FluidController {
 
     private final FluidRepository fluidRepository;

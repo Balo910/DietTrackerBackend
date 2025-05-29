@@ -2,13 +2,14 @@ package com.diettracker.backend.food;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/food")
 @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Food", description = "Zarządzanie produktami spożywczymi")
 public class FoodController {
 
     private final FoodRepository foodRepository;
