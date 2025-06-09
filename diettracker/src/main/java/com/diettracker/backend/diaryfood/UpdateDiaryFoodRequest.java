@@ -55,6 +55,4 @@ public class UpdateDiaryFoodRequest {
     public void setCarbs(double carbs) {
         this.carbs = carbs;
     }
-
-    // getters and setters
 }
