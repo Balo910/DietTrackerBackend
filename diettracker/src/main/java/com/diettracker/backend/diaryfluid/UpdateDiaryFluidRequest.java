@@ -29,5 +29,4 @@ public class UpdateDiaryFluidRequest {
         this.calories = calories;
     }
 
-    // getters and setters
 }

@@ -18,7 +18,6 @@ public class Diary {
     @Column(name = "diary_owner")
     private String diaryOwner;
 
-
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DiaryFood> diaryFoods;
 
